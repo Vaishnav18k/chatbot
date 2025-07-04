@@ -1,0 +1,30 @@
+[
+  {
+    "habitName": "Meditation",
+    "timestamp": "2025-07-04T10:00:00",
+    "id": "1751630796919",
+    "createdAt": "2025-07-04T12:06:36.919Z",
+    "updatedAt": "2025-07-04T12:06:36.919Z"
+  },
+  {
+    "habitName": "Walking",
+    "timestamp": "2025-07-04T12:00:00",
+    "id": "1751630972082",
+    "createdAt": "2025-07-04T12:09:32.082Z",
+    "updatedAt": "2025-07-04T12:09:32.082Z"
+  },
+  {
+    "habitName": "Hydration",
+    "timestamp": "2025-07-04T14:00:00",
+    "id": "1751631245528",
+    "createdAt": "2025-07-04T12:14:05.528Z",
+    "updatedAt": "2025-07-04T12:14:05.528Z"
+  },
+  {
+    "habitName": "Drawing",
+    "timestamp": "2023-10-10T16:00:00",
+    "id": "1751631936772",
+    "createdAt": "2025-07-04T12:25:36.772Z",
+    "updatedAt": "2025-07-04T12:25:36.772Z"
+  }
+]

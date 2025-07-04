@@ -3,6 +3,8 @@
 import { ToolInvocation } from 'ai';
 import { useChat } from '@ai-sdk/react';
 import { useRouter } from 'next/navigation';
+import { Weather } from './components/weather';
+import { Stock } from './components/stock';
 
 export default function Page() {
   const router = useRouter();
@@ -28,6 +30,12 @@ export default function Page() {
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm"
           >
             Weather
+          </button>
+          <button
+            onClick={() => router.push('/habits')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm"
+          >
+            Habits
           </button>
         </header>
 

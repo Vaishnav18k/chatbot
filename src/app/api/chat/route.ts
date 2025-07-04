@@ -1,51 +1,25 @@
-import { tools } from '@/app/ai/tools';
-import { openai } from '@ai-sdk/openai';
+
+// app/api/chat/route.ts
+import { NextRequest, NextResponse } from 'next/server';
 import { streamText } from 'ai';
-import { errorHandler } from '@/lib/error-handler'; 
-import { z } from 'zod';
-// import { tools } from '@/ai/tools';
+import { openai } from '@ai-sdk/openai';
+import { tools } from '@/app/ai/tools';
+import { errorHandler } from '@/lib/error-handler';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
-    const result = streamText({
+    const result = await streamText({
       model: openai('gpt-3.5-turbo'),
       messages,
       toolCallStreaming: true,
       tools,
-      // tools: {
-      //   // server-side tool with execute function:
-      //   getWeatherInformation: {
-      //     description: 'show the weather in a given city to the user',
-      //     parameters: z.object({ city: z.string() }),
-
-      //     execute: async ({}: { city: string }) => {
-      //       const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
-      //       return weatherOptions[
-      //         Math.floor(Math.random() * weatherOptions.length)
-      //       ];
-      //     },
-      //   },
-
-      //   // client-side tool that starts user interaction:
-      //   askForConfirmation: {
-      //     description: 'Ask the user for confirmation.',
-      //     parameters: z.object({
-      //       message: z.string().describe('The message to ask for confirmation.'),
-      //     }),
-      //   },
-      //   // client-side tool that is automatically executed on the client:
-      //   getLocation: {
-      //     description:
-      //       'Get the user location. Always ask for confirmation before using this tool.',
-      //     parameters: z.object({}),
-      //   },
-      // },
       maxSteps: 5,
+      system: 'You are a habit tracking assistant. Interpret user requests to log habits (e.g., "Log Running" or "Log Meditation") or retrieve today\'s habits (e.g., "Show today\'s habits"). Use the logHabit tool to log any habit with the current timestamp in ISO format (e.g., 2023-10-10T10:00:00). Use getTodayHabits to retrieve habits. Only use displayWeather or getStockPrice if explicitly requested (e.g., "Get weather for New York" or "Get stock price for AAPL").',
     });
 
     return result.toDataStreamResponse({
@@ -70,93 +44,3 @@ export async function POST(req: Request) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { tools } from '@/app/ai/tools';
-// import { openai } from '@ai-sdk/openai';
-// import { streamText } from 'ai';
-// import { z } from 'zod';
-// // import { tools } from '@/ai/tools';
-
-// // Allow streaming responses up to 30 seconds
-// export const maxDuration = 30;
-
-// export async function POST(req: Request) {
-//   const { messages } = await req.json();
-
-//   const result = streamText({
-//     model: openai('gpt-3.5-turbo'),
-//     messages,
-//     toolCallStreaming: true,
-//     tools,
-//     // tools: {
-//     //   // server-side tool with execute function:
-//     //   getWeatherInformation: {
-//     //     description: 'show the weather in a given city to the user',
-//     //     parameters: z.object({ city: z.string() }),
-
-//     //     execute: async ({}: { city: string }) => {
-//     //       const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
-//     //       return weatherOptions[
-//     //         Math.floor(Math.random() * weatherOptions.length)
-//     //       ];
-//     //     },
-//     //   },
-    
-//     //   // client-side tool that starts user interaction:
-//     //   askForConfirmation: {
-//     //     description: 'Ask the user for confirmation.',
-//     //     parameters: z.object({
-//     //       message: z.string().describe('The message to ask for confirmation.'),
-//     //     }),
-//     //   },
-//     //   // client-side tool that is automatically executed on the client:
-//     //   getLocation: {
-//     //     description:
-//     //       'Get the user location. Always ask for confirmation before using this tool.',
-//     //     parameters: z.object({}),
-//     //   },
-//     // },
-//     maxSteps:5,
-//   });
-
-
-
-
-
-//   return result.toDataStreamResponse(
-//     {
-//         getErrorMessage: errorHandler,
-//       }
-//   );
-// }
-
-
-// export function errorHandler(error: unknown) {
-//     if (error == null) {
-//       return 'unknown error';
-//     }
-  
-//     if (typeof error === 'string') {
-//       return error;
-//     }
-  
-//     if (error instanceof Error) {
-//       return error.message;
-//     }
-  
-//     return JSON.stringify(error);
-//   }
