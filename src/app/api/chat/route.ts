@@ -1,6 +1,7 @@
 import { tools } from '@/app/ai/tools';
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
+import { errorHandler } from '@/lib/error-handler'; 
 import { z } from 'zod';
 // import { tools } from '@/ai/tools';
 
@@ -55,22 +56,6 @@ export async function POST(req: Request) {
     console.error('[CHAT_API_ERROR]', message);
     return new Response(message, { status: 500 });
   }
-}
-
-export function errorHandler(error: unknown) {
-  if (error == null) {
-    return 'unknown error';
-  }
-
-  if (typeof error === 'string') {
-    return error;
-  }
-
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return JSON.stringify(error);
 }
 
 
