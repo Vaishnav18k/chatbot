@@ -341,22 +341,81 @@
 // }
 
 
+// 'use client';
+
+// import { useChat } from '@ai-sdk/react';
+// import { Weather } from   './components/weather'
+
+// export default function Page() {
+//   const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+//   return (
+//     <div className=' min-h-screen '> 
+//       <div className='flex flex-col-1 mt-10'> 
+//       <div className='bg-slate-300   p-20 border border-bg-slate-300  '>
+//     <div>
+//       {messages.map(message => (
+//         <div key={message.id}>
+//           <div>{message.role === 'user' ? 'User: ' : 'AI: '}</div>
+//           <div>{message.content}</div>
+
+//           <div>
+//             {message.toolInvocations?.map(toolInvocation => {
+//               const { toolName, toolCallId, state } = toolInvocation;
+
+//               if (state === 'result') {
+//                 if (toolName === 'displayWeather') {
+//                   const { result } = toolInvocation;
+//                   return (
+//                     <div key={toolCallId}>
+//                       <Weather {...result} />
+//                     </div>
+//                   );
+//                 }
+//               } else {
+//                 return (
+//                   <div key={toolCallId}>
+//                     {toolName === 'displayWeather' ? (
+//                       <div>Loading weather...</div>
+//                     ) : null}
+//                   </div>
+//                 );
+//               }
+//             })}
+//           </div>
+//         </div>
+//       ))}
+
+//       <form onSubmit={handleSubmit}>
+//         <input className='border border-slate-300 bg-slate-300 text-black p-2 rounded-md'
+//           value={input}
+//           onChange={handleInputChange}
+//           placeholder="Type a message..."
+//         />
+//         <button  className='border border-slate-300 bg-blue-500 text-white p-2 rounded-md' type="submit">Send</button>
+//       </form>
+//     </div>
+//     </div>
+//     </div>
+//     </div>
+//   );
+// }
+
+
 'use client';
 
 import { useChat } from '@ai-sdk/react';
-import { Weather } from   './components/weather'
+import { Weather } from './components/weather';
+import { Stock } from './components/stock';
 
 export default function Page() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, setInput, handleSubmit } = useChat();
 
   return (
-    <div className=' min-h-screen '> 
-      <div className='flex flex-col-1 mt-10'> 
-      <div className='bg-slate-300   p-20 border border-bg-slate-300  '>
     <div>
       {messages.map(message => (
         <div key={message.id}>
-          <div>{message.role === 'user' ? 'User: ' : 'AI: '}</div>
+          <div>{message.role}</div>
           <div>{message.content}</div>
 
           <div>
@@ -371,13 +430,20 @@ export default function Page() {
                       <Weather {...result} />
                     </div>
                   );
+                } else if (toolName === 'getStockPrice') {
+                  const { result } = toolInvocation;
+                  return <Stock key={toolCallId} {...result} />;
                 }
               } else {
                 return (
                   <div key={toolCallId}>
                     {toolName === 'displayWeather' ? (
                       <div>Loading weather...</div>
-                    ) : null}
+                    ) : toolName === 'getStockPrice' ? (
+                      <div>Loading stock price...</div>
+                    ) : (
+                      <div>Loading...</div>
+                    )}
                   </div>
                 );
               }
@@ -387,16 +453,15 @@ export default function Page() {
       ))}
 
       <form onSubmit={handleSubmit}>
-        <input className='border border-slate-300 bg-slate-300 text-black p-2 rounded-md'
+        <input
+          type="text"
           value={input}
-          onChange={handleInputChange}
-          placeholder="Type a message..."
+          onChange={event => {
+            setInput(event.target.value);
+          }}
         />
-        <button  className='border border-slate-300 bg-blue-500 text-white p-2 rounded-md' type="submit">Send</button>
+        <button type="submit">Send</button>
       </form>
-    </div>
-    </div>
-    </div>
     </div>
   );
 }
