@@ -99,7 +99,7 @@ export default function HabitsPage() {
             </div>
           </div>
           
-          {/* Stats Overview */}
+          {/* Stats Overview
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div className="bg-blue-50 p-4 rounded-lg">
               <div className="text-sm text-blue-600 font-medium">Today's Habits</div>
@@ -119,7 +119,7 @@ export default function HabitsPage() {
                 {loading ? '...' : (todayHabits?.length ? '🔥' : '💪')}
               </div>
             </div>
-          </div>
+          </div> */}
         </header>
 
         {/* Main Content Area */}
