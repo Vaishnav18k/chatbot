@@ -76,7 +76,7 @@ export default function HabitsPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="flex flex-col h- bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Card Container */}
       <div className="flex flex-col h-full max-w-4xl mx-auto w-full bg-white rounded-2xl shadow-lg mt-6 mb-6">
         {/* Header */}
